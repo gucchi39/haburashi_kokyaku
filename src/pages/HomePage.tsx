@@ -17,6 +17,13 @@ export const HomePage = () => {
 
   const latestMessage = messages[messages.length - 1];
 
+  // 今週の統計を計算
+  const weekAgo = new Date();
+  weekAgo.setDate(weekAgo.getDate() - 7);
+  const thisWeekLogs = logs.filter(l => new Date(l.dateISO) >= weekAgo);
+  const weekBrushCount = thisWeekLogs.length;
+  const weekTotalMinutes = Math.floor(thisWeekLogs.reduce((sum, l) => sum + l.durationSec, 0) / 60);
+
   const handleTimerComplete = (seconds: number) => {
     setDuration(seconds);
     setStep('form');
@@ -70,46 +77,38 @@ export const HomePage = () => {
 
             {/* クイック統計 */}
             <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6">
-              <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4">今週の記録</h3>
-              <div className="space-y-3">
+              <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">今週の記録</h3>
+              <div className="space-y-4">
                 <div className="flex justify-between items-center">
-                  <span className="text-gray-600 dark:text-gray-400">歯みがき回数</span>
-                  <span className="text-2xl font-bold text-blue-600 dark:text-blue-400">{logs.filter(l => {
-                    const weekAgo = new Date();
-                    weekAgo.setDate(weekAgo.getDate() - 7);
-                    return new Date(l.dateISO) >= weekAgo;
-                  }).length}回</span>
+                  <span className="text-lg text-gray-600 dark:text-gray-400">歯みがき回数</span>
+                  <span className="text-3xl font-bold text-blue-600 dark:text-blue-400">{weekBrushCount}回</span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-gray-600 dark:text-gray-400">合計時間</span>
-                  <span className="text-2xl font-bold text-purple-600 dark:text-purple-400">
-                    {Math.floor(logs.filter(l => {
-                      const weekAgo = new Date();
-                      weekAgo.setDate(weekAgo.getDate() - 7);
-                      return new Date(l.dateISO) >= weekAgo;
-                    }).reduce((sum, l) => sum + l.durationSec, 0) / 60)}分
+                  <span className="text-lg text-gray-600 dark:text-gray-400">合計時間</span>
+                  <span className="text-3xl font-bold text-purple-600 dark:text-purple-400">
+                    {weekTotalMinutes}分
                   </span>
                 </div>
               </div>
             </div>
 
             {/* ナビゲーション */}
-            <div className="space-y-3">
+            <div className="space-y-4">
               <Link
                 to="/dashboard"
-                className="block px-6 py-4 bg-blue-600 text-white rounded-xl font-semibold text-center hover:bg-blue-700 transition shadow-lg text-lg"
+                className="block px-8 py-5 bg-blue-600 text-white rounded-xl font-bold text-center hover:bg-blue-700 transition shadow-lg text-xl transform hover:scale-105"
               >
                 📊 詳しい統計を見る
               </Link>
               <Link
                 to="/chat"
-                className="block px-6 py-4 bg-purple-600 text-white rounded-xl font-semibold text-center hover:bg-purple-700 transition shadow-lg text-lg"
+                className="block px-8 py-5 bg-purple-600 text-white rounded-xl font-bold text-center hover:bg-purple-700 transition shadow-lg text-xl transform hover:scale-105"
               >
                 💬 チャット履歴
               </Link>
               <Link
                 to="/settings"
-                className="block px-6 py-4 bg-gray-600 text-white rounded-xl font-semibold text-center hover:bg-gray-700 transition shadow-lg text-lg"
+                className="block px-8 py-5 bg-gray-600 text-white rounded-xl font-bold text-center hover:bg-gray-700 transition shadow-lg text-xl transform hover:scale-105"
               >
                 ⚙️ 設定
               </Link>
@@ -118,23 +117,21 @@ export const HomePage = () => {
 
           {/* メインコンテンツエリア */}
           <div className="lg:col-span-2">
-            {step === 'idle' && (
-              <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-12">
-                <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-8 text-center">
-                  今日の歯みがき
-                </h2>
-                <div className="max-w-md mx-auto">
-                  <button
-                    onClick={() => setStep('timer')}
-                    className="w-full px-12 py-12 text-3xl font-bold text-white bg-gradient-to-r from-blue-600 to-purple-600 rounded-3xl hover:from-blue-700 hover:to-purple-700 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-800 transition shadow-2xl transform hover:scale-105"
-                  >
-                    🦷 開始
-                  </button>
-                </div>
+          {step === 'idle' && (
+            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 lg:p-16">
+              <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-12 text-center">
+                今日の歯みがき
+              </h2>
+              <div className="max-w-2xl mx-auto">
+                <button
+                  onClick={() => setStep('timer')}
+                  className="w-full px-16 py-16 text-4xl lg:text-5xl font-bold text-white bg-gradient-to-r from-blue-600 to-purple-600 rounded-3xl hover:from-blue-700 hover:to-purple-700 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-800 transition shadow-2xl transform hover:scale-105"
+                >
+                  🦷 開始
+                </button>
               </div>
-            )}
-
-          {step === 'timer' && (
+            </div>
+          )}          {step === 'timer' && (
             <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 md:p-12">
               <Timer onComplete={handleTimerComplete} />
             </div>
