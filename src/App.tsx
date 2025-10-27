@@ -15,7 +15,7 @@ function App() {
   useReminders();
 
   return (
-    <BrowserRouter>
+    <BrowserRouter basename="/haburashi_kokyaku">
       <Routes>
         <Route 
           path="/onboarding" 
