@@ -51,18 +51,18 @@ export const SettingsPage = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-4 py-8 max-w-4xl">
         <header className="flex items-center justify-between mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">設定</h1>
+          <h1 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white">設定</h1>
           <Link
             to="/"
-            className="px-4 py-2 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition"
+            className="px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition text-lg"
           >
             ホーム
           </Link>
         </header>
 
-        <div className="max-w-2xl mx-auto space-y-6">
+        <div className="max-w-3xl mx-auto space-y-6">
           {/* リマインダー */}
           <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow">
             <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">

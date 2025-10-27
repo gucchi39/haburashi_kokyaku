@@ -52,8 +52,8 @@ export const LogForm: React.FC<LogFormProps> = ({ durationSec, onSubmit, onCance
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6 p-6 max-w-lg mx-auto">
-      <h2 className="text-2xl font-bold text-gray-900 dark:text-white">歯みがき記録</h2>
+    <form onSubmit={handleSubmit} className="space-y-6 p-6 md:p-8 max-w-2xl mx-auto">
+      <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white">歯みがき記録</h2>
       
       {/* 所要時間 */}
       <div>

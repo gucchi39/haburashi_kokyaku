@@ -8,18 +8,18 @@ export const ChatPage = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-4 py-8 max-w-5xl">
         <header className="flex items-center justify-between mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">チャット履歴</h1>
+          <h1 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white">チャット履歴</h1>
           <Link
             to="/"
-            className="px-4 py-2 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition"
+            className="px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition text-lg"
           >
             ホーム
           </Link>
         </header>
 
-        <div className="max-w-3xl mx-auto space-y-4">
+        <div className="max-w-4xl mx-auto space-y-6">
           {recentMessages.length === 0 ? (
             <div className="text-center py-12 text-gray-500 dark:text-gray-400">
               まだメッセージがありません

@@ -45,15 +45,15 @@ export const Timer: React.FC<TimerProps> = ({ onComplete }) => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center p-8 space-y-6">
-      <div className="text-6xl font-bold font-mono text-blue-600 dark:text-blue-400">
+    <div className="flex flex-col items-center justify-center p-8 md:p-12 space-y-8">
+      <div className="text-7xl md:text-9xl font-bold font-mono text-blue-600 dark:text-blue-400">
         {formatTime(seconds)}
       </div>
       
       {!isRunning && seconds === 0 && (
         <button
           onClick={handleStart}
-          className="px-8 py-4 text-lg font-semibold text-white bg-blue-600 rounded-full hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-800 transition"
+          className="px-12 py-6 text-xl md:text-2xl font-semibold text-white bg-blue-600 rounded-full hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-800 transition transform hover:scale-105 shadow-lg"
         >
           開始
         </button>
@@ -63,7 +63,7 @@ export const Timer: React.FC<TimerProps> = ({ onComplete }) => {
         <div className="flex space-x-4">
           <button
             onClick={handleStop}
-            className="px-8 py-4 text-lg font-semibold text-white bg-green-600 rounded-full hover:bg-green-700 focus:outline-none focus:ring-4 focus:ring-green-300 dark:focus:ring-green-800 transition"
+            className="px-12 py-6 text-xl md:text-2xl font-semibold text-white bg-green-600 rounded-full hover:bg-green-700 focus:outline-none focus:ring-4 focus:ring-green-300 dark:focus:ring-green-800 transition transform hover:scale-105 shadow-lg"
           >
             終了
           </button>
