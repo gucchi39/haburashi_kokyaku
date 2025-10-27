@@ -42,64 +42,97 @@ export const HomePage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 dark:from-gray-900 dark:to-gray-800">
-      <div className="container mx-auto px-4 py-8 max-w-4xl">
-        {/* ヘッダー */}
-        <header className="text-center mb-8">
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-2">
-            ほめみがき Lite
-          </h1>
-          <p className="text-lg text-gray-600 dark:text-gray-300">
-            ほめられて続く歯みがき習慣
-          </p>
-        </header>
-
-        {/* 連続日数バッジ */}
-        {streak > 0 && (
-          <div className="text-center mb-8">
-            <div className="inline-block px-8 py-4 bg-gradient-to-r from-yellow-400 to-orange-500 text-white rounded-full font-bold text-xl md:text-2xl shadow-lg">
-              🔥 {streak}日連続！
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 dark:from-gray-900 dark:to-gray-800 py-8">
+      <div className="container mx-auto px-4 max-w-7xl">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* 左サイドバー - 統計サマリー */}
+          <div className="lg:col-span-1 space-y-6">
+            {/* ヘッダー */}
+            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6">
+              <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+                ほめみがき Lite
+              </h1>
+              <p className="text-gray-600 dark:text-gray-300">
+                ほめられて続く歯みがき習慣
+              </p>
             </div>
-          </div>
-        )}
 
-        {/* メインコンテンツ */}
-        <div className="w-full">
-          {step === 'idle' && (
-            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 md:p-12">
-              <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-8 text-center">
-                今日の歯みがき
-              </h2>
-              <button
-                onClick={() => setStep('timer')}
-                className="w-full px-8 py-8 text-xl md:text-2xl font-bold text-white bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl hover:from-blue-700 hover:to-purple-700 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-800 transition shadow-lg transform hover:scale-105"
-              >
-                開始
-              </button>
+            {/* 連続日数 */}
+            {streak > 0 && (
+              <div className="bg-gradient-to-r from-yellow-400 to-orange-500 rounded-2xl shadow-xl p-6 text-white">
+                <div className="text-center">
+                  <div className="text-5xl font-bold mb-2">🔥</div>
+                  <div className="text-4xl font-bold mb-1">{streak}日</div>
+                  <div className="text-lg opacity-90">連続記録</div>
+                </div>
+              </div>
+            )}
 
-              {/* ナビゲーション */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-8">
-                <Link
-                  to="/dashboard"
-                  className="px-6 py-4 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 rounded-xl font-semibold text-center hover:bg-blue-200 dark:hover:bg-blue-900/50 transition text-lg"
-                >
-                  📊 統計
-                </Link>
-                <Link
-                  to="/chat"
-                  className="px-6 py-4 bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 rounded-xl font-semibold text-center hover:bg-purple-200 dark:hover:bg-purple-900/50 transition text-lg"
-                >
-                  💬 チャット
-                </Link>
-                <Link
-                  to="/settings"
-                  className="px-6 py-4 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-xl font-semibold text-center hover:bg-gray-200 dark:hover:bg-gray-600 transition text-lg"
-                >
-                  ⚙️ 設定
-                </Link>
+            {/* クイック統計 */}
+            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6">
+              <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4">今週の記録</h3>
+              <div className="space-y-3">
+                <div className="flex justify-between items-center">
+                  <span className="text-gray-600 dark:text-gray-400">歯みがき回数</span>
+                  <span className="text-2xl font-bold text-blue-600 dark:text-blue-400">{logs.filter(l => {
+                    const weekAgo = new Date();
+                    weekAgo.setDate(weekAgo.getDate() - 7);
+                    return new Date(l.dateISO) >= weekAgo;
+                  }).length}回</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-gray-600 dark:text-gray-400">合計時間</span>
+                  <span className="text-2xl font-bold text-purple-600 dark:text-purple-400">
+                    {Math.floor(logs.filter(l => {
+                      const weekAgo = new Date();
+                      weekAgo.setDate(weekAgo.getDate() - 7);
+                      return new Date(l.dateISO) >= weekAgo;
+                    }).reduce((sum, l) => sum + l.durationSec, 0) / 60)}分
+                  </span>
+                </div>
               </div>
             </div>
-          )}
+
+            {/* ナビゲーション */}
+            <div className="space-y-3">
+              <Link
+                to="/dashboard"
+                className="block px-6 py-4 bg-blue-600 text-white rounded-xl font-semibold text-center hover:bg-blue-700 transition shadow-lg text-lg"
+              >
+                📊 詳しい統計を見る
+              </Link>
+              <Link
+                to="/chat"
+                className="block px-6 py-4 bg-purple-600 text-white rounded-xl font-semibold text-center hover:bg-purple-700 transition shadow-lg text-lg"
+              >
+                💬 チャット履歴
+              </Link>
+              <Link
+                to="/settings"
+                className="block px-6 py-4 bg-gray-600 text-white rounded-xl font-semibold text-center hover:bg-gray-700 transition shadow-lg text-lg"
+              >
+                ⚙️ 設定
+              </Link>
+            </div>
+          </div>
+
+          {/* メインコンテンツエリア */}
+          <div className="lg:col-span-2">
+            {step === 'idle' && (
+              <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-12">
+                <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-8 text-center">
+                  今日の歯みがき
+                </h2>
+                <div className="max-w-md mx-auto">
+                  <button
+                    onClick={() => setStep('timer')}
+                    className="w-full px-12 py-12 text-3xl font-bold text-white bg-gradient-to-r from-blue-600 to-purple-600 rounded-3xl hover:from-blue-700 hover:to-purple-700 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-800 transition shadow-2xl transform hover:scale-105"
+                  >
+                    🦷 開始
+                  </button>
+                </div>
+              </div>
+            )}
 
           {step === 'timer' && (
             <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 md:p-12">
@@ -123,6 +156,7 @@ export const HomePage = () => {
               onClose={handleAvatarClose}
             />
           )}
+          </div>
         </div>
       </div>
     </div>

@@ -10,15 +10,57 @@ const STORAGE_KEYS = {
 
 // デフォルト値
 const DEFAULT_PROFILE: Profile = {
-  nickname: undefined,
-  brushType: null,
+  nickname: 'ユーザー',
+  brushType: '極細毛・スーパーテーパード毛',
   goal: {
-    dailyTarget: 1,
-    minutesPerDay: 2,
+    dailyTarget: 2,
+    minutesPerDay: 4,
   },
   reminders: {
+    morning: '07:00',
+    night: '21:00',
     enabled: false,
   },
+};
+
+// ダミーログデータを生成
+const generateDummyLogs = (): BrushLog[] => {
+  const logs: BrushLog[] = [];
+  const now = new Date();
+  
+  // 過去7日間のダミーデータ
+  for (let i = 6; i >= 0; i--) {
+    const date = new Date(now);
+    date.setDate(date.getDate() - i);
+    
+    // 朝の歯みがき
+    if (Math.random() > 0.2) { // 80%の確率で朝も磨く
+      logs.push({
+        id: `dummy-log-${i}-morning`,
+        dateISO: date.toISOString(),
+        durationSec: 90 + Math.floor(Math.random() * 90), // 90-180秒
+        timeOfDay: 'morning',
+        selfRating: (Math.floor(Math.random() * 2) + 3) as 3 | 4 | 5, // 3-5
+        bleeding: Math.random() > 0.9,
+        sensitivity: Math.random() > 0.85,
+        notes: i === 0 ? '今日も頑張りました！' : undefined,
+      });
+    }
+    
+    // 夜の歯みがき
+    logs.push({
+      id: `dummy-log-${i}-night`,
+      dateISO: new Date(date.getTime() + 12 * 60 * 60 * 1000).toISOString(),
+      durationSec: 100 + Math.floor(Math.random() * 80), // 100-180秒
+      timeOfDay: 'night',
+      selfRating: (Math.floor(Math.random() * 3) + 3) as 3 | 4 | 5, // 3-5
+      bleeding: Math.random() > 0.95,
+      sensitivity: Math.random() > 0.9,
+      pain: Math.random() > 0.97,
+    });
+  }
+  
+  return logs;
 };
 
 // Profile
@@ -31,6 +73,8 @@ export const getProfile = (): Profile => {
   } catch (error) {
     console.error('Failed to load profile:', error);
   }
+  // 初回アクセス時はダミーデータを保存
+  saveProfile(DEFAULT_PROFILE);
   return DEFAULT_PROFILE;
 };
 
@@ -47,12 +91,17 @@ export const getLogs = (): BrushLog[] => {
   try {
     const stored = localStorage.getItem(STORAGE_KEYS.LOGS);
     if (stored) {
-      return JSON.parse(stored);
+      const logs = JSON.parse(stored);
+      // データがあればそれを返す
+      if (logs.length > 0) return logs;
     }
   } catch (error) {
     console.error('Failed to load logs:', error);
   }
-  return [];
+  // 初回アクセス時はダミーデータを生成して保存
+  const dummyLogs = generateDummyLogs();
+  saveLogs(dummyLogs);
+  return dummyLogs;
 };
 
 export const saveLogs = (logs: BrushLog[]): void => {
