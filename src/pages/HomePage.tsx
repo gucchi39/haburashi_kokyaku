@@ -64,20 +64,25 @@ export const HomePage = () => {
               </p>
             </div>
 
-            {/* 今日の歯みがき開始ボタン - 上に移動 */}
-            {step === 'idle' && (
-              <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8">
-                <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 text-center">
-                  今日の歯みがき
-                </h2>
-                <button
-                  onClick={() => setStep('timer')}
-                  className="w-full px-12 py-12 text-3xl font-bold text-white bg-gradient-to-r from-blue-600 to-purple-600 rounded-3xl hover:from-blue-700 hover:to-purple-700 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-800 transition shadow-2xl transform hover:scale-105"
-                >
-                  🦷 開始
-                </button>
-              </div>
-            )}
+            {/* 今日の歯みがき開始ボタン/タイマー - 上に固定 */}
+            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8">
+              {step === 'idle' && (
+                <>
+                  <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 text-center">
+                    今日の歯みがき
+                  </h2>
+                  <button
+                    onClick={() => setStep('timer')}
+                    className="w-full px-12 py-12 text-3xl font-bold text-white bg-gradient-to-r from-blue-600 to-purple-600 rounded-3xl hover:from-blue-700 hover:to-purple-700 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-800 transition shadow-2xl transform hover:scale-105"
+                  >
+                    🦷 開始
+                  </button>
+                </>
+              )}
+              {step === 'timer' && (
+                <Timer onComplete={handleTimerComplete} />
+              )}
+            </div>
 
             {/* 連続日数 */}
             {streak > 0 && (
@@ -138,12 +143,6 @@ export const HomePage = () => {
 
           {/* メインコンテンツエリア */}
           <div className="lg:col-span-2">
-          {step === 'timer' && (
-            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 md:p-12">
-              <Timer onComplete={handleTimerComplete} />
-            </div>
-          )}
-
           {step === 'form' && (
             <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl max-w-3xl mx-auto">
               <LogForm
