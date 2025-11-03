@@ -110,6 +110,12 @@ export const HomePage = () => {
             {/* ナビゲーション */}
             <div className="space-y-4">
               <Link
+                to="/shop"
+                className="block px-8 py-5 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-xl font-bold text-center hover:from-green-600 hover:to-emerald-700 transition shadow-lg text-xl transform hover:scale-105"
+              >
+                🛒 替えブラシを購入
+              </Link>
+              <Link
                 to="/dashboard"
                 className="block px-8 py-5 bg-blue-600 text-white rounded-xl font-bold text-center hover:bg-blue-700 transition shadow-lg text-xl transform hover:scale-105"
               >

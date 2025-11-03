@@ -7,6 +7,7 @@ import { HomePage } from './pages/HomePage';
 import { DashboardPage } from './pages/DashboardPage';
 import { ChatPage } from './pages/ChatPage';
 import { SettingsPage } from './pages/SettingsPage';
+import { ShopPage } from './pages/ShopPage';
 
 function App() {
   const onboardingDone = useStore(state => state.onboardingDone);
@@ -36,6 +37,10 @@ function App() {
         <Route 
           path="/settings" 
           element={onboardingDone ? <SettingsPage /> : <Navigate to="/onboarding" />} 
+        />
+        <Route 
+          path="/shop" 
+          element={onboardingDone ? <ShopPage /> : <Navigate to="/onboarding" />} 
         />
       </Routes>
     </BrowserRouter>
