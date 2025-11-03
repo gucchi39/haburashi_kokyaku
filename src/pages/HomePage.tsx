@@ -50,10 +50,12 @@ export const HomePage = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 dark:from-gray-900 dark:to-gray-800 py-8">
-      <div className="w-full px-8 lg:px-16">
-        <div className="space-y-6">
-          {/* ヘッダー */}
-          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6">
+      <div className="container mx-auto px-4 max-w-7xl">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* 左サイドバー - 統計サマリー */}
+          <div className="lg:col-span-1 space-y-6">
+            {/* ヘッダー */}
+            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6">
               <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
                 ほめみがき Lite
               </h1>
@@ -61,6 +63,21 @@ export const HomePage = () => {
                 ほめられて続く歯みがき習慣
               </p>
             </div>
+
+            {/* 今日の歯みがき開始ボタン - 上に移動 */}
+            {step === 'idle' && (
+              <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8">
+                <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 text-center">
+                  今日の歯みがき
+                </h2>
+                <button
+                  onClick={() => setStep('timer')}
+                  className="w-full px-12 py-12 text-3xl font-bold text-white bg-gradient-to-r from-blue-600 to-purple-600 rounded-3xl hover:from-blue-700 hover:to-purple-700 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-800 transition shadow-2xl transform hover:scale-105"
+                >
+                  🦷 開始
+                </button>
+              </div>
+            )}
 
             {/* 連続日数 */}
             {streak > 0 && (
@@ -109,25 +126,13 @@ export const HomePage = () => {
                 className="block px-8 py-5 bg-gray-600 text-white rounded-xl font-bold text-center hover:bg-gray-700 transition shadow-lg text-xl transform hover:scale-105"
               >
                 ⚙️ 設定
-            </Link>
+              </Link>
+            </div>
           </div>
 
           {/* メインコンテンツエリア */}
-          {step === 'idle' && (
-            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 lg:p-16">
-              <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-12 text-center">
-                今日の歯みがき
-              </h2>
-              <div className="max-w-2xl mx-auto">
-                <button
-                  onClick={() => setStep('timer')}
-                  className="w-full px-16 py-16 text-4xl lg:text-5xl font-bold text-white bg-gradient-to-r from-blue-600 to-purple-600 rounded-3xl hover:from-blue-700 hover:to-purple-700 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-800 transition shadow-2xl transform hover:scale-105"
-                >
-                  🦷 開始
-                </button>
-              </div>
-            </div>
-          )}          {step === 'timer' && (
+          <div className="lg:col-span-2">
+          {step === 'timer' && (
             <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 md:p-12">
               <Timer onComplete={handleTimerComplete} />
             </div>
@@ -149,6 +154,7 @@ export const HomePage = () => {
               onClose={handleAvatarClose}
             />
           )}
+          </div>
         </div>
       </div>
     </div>
